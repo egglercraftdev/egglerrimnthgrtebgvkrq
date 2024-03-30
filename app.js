@@ -1,26 +1,25 @@
+// Yeniden düzenlenmiş copyDownloadLink fonksiyonu
+const copyDownloadLink = (downloadLink) => {
+    const el = document.createElement('textarea');
+    el.value = downloadLink;
+    document.body.appendChild(el);
+    el.select();
+    try {
+        const successful = document.execCommand('copy');
+        const message = successful ? 'Link copied to clipboard' : 'Unable to copy link to clipboard';
+        alert(message);
+    } catch (err) {
+        alert('Error copying link to clipboard');
+    }
+    document.body.removeChild(el);
+};
+
 document.addEventListener("DOMContentLoaded", function () {
     fetch('./mods.json')
         .then(response => response.json())
         .then(data => {
             const modContainer = document.getElementById('modContainer');
             const searchInput = document.getElementById('searchInput');
-
-                        const copyDownloadLink = (downloadLink) => {
-                const el = document.createElement('textarea');
-                el.value = downloadLink;
-                document.body.appendChild(el);
-                el.select();
-                try {
-                    const successful = document.execCommand('copy');
-                    const message = successful ? 'Link copied to clipboard' : 'Unable to copy link to clipboard';
-                    alert(message);
-                } catch (err) {
-                    alert('Error copying link to clipboard');
-                }
-                document.body.removeChild(el);
-            };
-            
-            // ...
 
             // Remove existing cards
             modContainer.innerHTML = '';
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="mt-4">
                                 <a href="${mod['repo-link']}" class="btn btn-primary" target="_blank">View Source</a>
                                 <a href="${mod['download-link']}" class="btn btn-success" download target="_blank">Download</a>
-                                <a href="#" class="btn btn-success" onclick="copyDownloadLink('${mod['download-link']}')">Copy Download Link</a>
+                                <button class="btn btn-success" onclick="copyDownloadLink('${mod['download-link']}')">Copy Download Link</button>
                             </div>
                         </div>
                     </div>`;
